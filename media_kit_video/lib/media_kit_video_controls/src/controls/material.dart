@@ -829,8 +829,11 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
 
   @override
   Widget build(BuildContext context) {
-    final verticalGesturesEnabled =
-        (_theme(context).brightnessGesture || (_theme(context).volumeGesture));
+    final verticalGesturesEnabled = ((_theme(context).brightnessGesture &&
+            _theme(context).onBrightnessChanged != null) ||
+        (_theme(context).volumeGesture &&
+            _theme(context).onVolumeChanged != null));
+
     var seekOnDoubleTapEnabledWhileControlsAreVisible =
         (_theme(context).seekOnDoubleTap &&
             _theme(context).seekOnDoubleTapEnabledWhileControlsVisible);
@@ -940,18 +943,9 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
                                     if (position.dx <=
                                         widgetWidth(context) / 2) {
                                       // Left side of screen swiped
-                                      if ((!mount &&
-                                              _theme(context)
-                                                  .brightnessGesture &&
-                                              _theme(context)
-                                                      .onBrightnessChanged !=
-                                                  null) ||
-                                          (_theme(context).brightnessGesture &&
-                                              _theme(context)
-                                                  .gesturesEnabledWhileControlsVisible &&
-                                              _theme(context)
-                                                      .onBrightnessChanged !=
-                                                  null)) {
+                                      if ((!mount) ||
+                                          (_theme(context)
+                                              .gesturesEnabledWhileControlsVisible)) {
                                         final brightness = _brightnessValue -
                                             delta /
                                                 _theme(context)
@@ -963,15 +957,9 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
                                     } else {
                                       // Right side of screen swiped
 
-                                      if ((!mount &&
-                                              _theme(context).volumeGesture &&
-                                              _theme(context).onVolumeChanged !=
-                                                  null) ||
-                                          (_theme(context).volumeGesture &&
-                                              _theme(context)
-                                                  .gesturesEnabledWhileControlsVisible &&
-                                              _theme(context).onVolumeChanged !=
-                                                  null)) {
+                                      if ((!mount) ||
+                                          (_theme(context)
+                                              .gesturesEnabledWhileControlsVisible)) {
                                         final volume = _volumeValue -
                                             delta /
                                                 _theme(context)
